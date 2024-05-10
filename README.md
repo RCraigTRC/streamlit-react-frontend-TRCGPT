@@ -1,3 +1,5 @@
+![UI Screenshot](./template/my_component/frontend/src/images/TRCGPT%20UI%20Screenshot.png "A cute cat")
+
 # How To Get Started
 
 * Clone this repo.
