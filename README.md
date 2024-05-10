@@ -1,5 +1,7 @@
+# How To Get Started
+
 * Clone this repo.
-* Create a new Python virtual environment for the template:
+* Create a new Python virtual environment for the template and install streamlit:
 ```
 $ cd template
 $ python3 -m venv venv  # create venv
@@ -19,3 +21,8 @@ $ . venv/bin/activate  # activate the venv you created earlier
 $ pip install -e . # install template as editable package
 $ streamlit run my_component/example.py  # run the example
 ```
+
+## Helpful Notes:
+
+* The "my_component" directory has the streamlit app and the custom input field component (coded in Typescript)
+* The layout of the app is wrong and will need to be adjusted. Basically the custom input field component will need to be fixed to the bottom of the screen and the messages will need to render above it. This may be a little tricky since the elements in a streamlit app render from top-down by default.
