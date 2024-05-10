@@ -1,0 +1,106 @@
+.chatgpt-input {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 5px;
+    height: 50px;
+}
+
+.chatgpt-input input {
+    flex: 1;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+#sendButton {
+    background: linear-gradient(to top right, violet, darkblue);
+    border: none;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#sendButtonDisabled {
+    background: grey;
+    border: none;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#send-image{
+    height: 20px;
+}
+
+#card-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    gap: 20px;
+}
+
+@keyframes popIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+}
+
+.chat-card {
+    flex-basis: 45%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    transition: all 0.3s ease;
+    background-color: hsl(0, 0%, 100%);
+    animation: popIn 0.5s ease forwards;
+    opacity: 0;
+}
+
+.chat-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f7f4f4;
+    cursor: pointer;
+}
+
+.card-p {
+    font-size: 14px;
+}
+ 
+#field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#title-group{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+#chat-title {
+    color: #043d75;
+}
+
+#trc-logo {
+    height: 40px;
+}

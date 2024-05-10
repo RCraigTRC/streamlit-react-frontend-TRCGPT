@@ -14,5 +14,5 @@ else:
     _component_func = components.declare_component("my_component", path=build_dir)
 
 def my_component():
-    component_value = _component_func(default="")
+    component_value = _component_func()
     return component_value

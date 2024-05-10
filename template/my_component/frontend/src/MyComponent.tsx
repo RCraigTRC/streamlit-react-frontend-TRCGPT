@@ -3,87 +3,74 @@ import {
   StreamlitComponentBase,
   withStreamlitConnection,
 } from "streamlit-component-lib"
-import React, { ReactNode } from "react"
+import React, { ReactNode, ChangeEvent } from "react"
+import "./styles/chat.css"
 
 interface State {
-  numClicks: number
-  isFocused: boolean
+  disabled: boolean
+  query: string
+  cardGroupVisible: boolean
 }
 
-/**
- * This is a React-based component template. The `render()` function is called
- * automatically when your component should be re-rendered.
- */
 class MyComponent extends StreamlitComponentBase<State> {
-  public state = { numClicks: 0, isFocused: false }
+  public state = { disabled: true, query: "", cardGroupVisible: true }
 
   public render = (): ReactNode => {
-    // Arguments that are passed to the plugin in Python are accessible
-    // via `this.props.args`. Here, we access the "name" arg.
-    const name = this.props.args["name"]
 
-    // Streamlit sends us a theme object via props that we can use to ensure
-    // that our component has visuals that match the active theme in a
-    // streamlit app.
-    const { theme } = this.props
-    const style: React.CSSProperties = {}
+    const buttonId = this.state.disabled ? "sendButtonDisabled" : "sendButton";
 
-    // Maintain compatibility with older versions of Streamlit that don't send
-    // a theme object.
-    if (theme) {
-      // Use the theme object to style our button border. Alternatively, the
-      // theme style is defined in CSS vars.
-      const borderStyling = `1px solid ${
-        this.state.isFocused ? theme.primaryColor : "gray"
-      }`
-      style.border = borderStyling
-      style.outline = borderStyling
-    }
-
-    // Show a button and some text.
-    // When the button is clicked, we'll increment our "numClicks" state
-    // variable, and send its new value back to Streamlit, where it'll
-    // be available to the Python program.
     return (
-      <span>
-        Hello, {name}! &nbsp;
-        <button
-          style={style}
-          onClick={this.onClicked}
-          disabled={this.props.disabled}
-          onFocus={this._onFocus}
-          onBlur={this._onBlur}
-        >
-          Click Me!
-        </button>
-      </span>
+      <div id="field-group">
+        {this.state.cardGroupVisible && (
+          <div>
+            <div id="title-group">
+              <img id="trc-logo" src={require("./images/TRC Logo final_Color.png")} alt="trc-logo"/>
+              <h2 id="chat-title">HOW CAN I HELP YOU TODAY?</h2>
+            </div>
+            <div id="card-group">
+              <div className="chat-card">
+                <h4>Be specific with your prompts</h4>
+                <p className="card-p">Provide as much detail as possible to ensure your assistant provides you with correct information. GIve context or background in your prompt and specify format of your desired output.</p>
+              </div>
+              <div className="chat-card">
+                <h4>Don't hesitate to ask follow-up questions</h4>
+                <p className="card-p">Feel free to ask the same question in multiple ways to get the best response.  Sometimes one change in the requested action verb can have significant impact on the response.</p>
+              </div>
+              <div className="chat-card">
+                <h4>Review and Edit Outputs</h4>
+                <p className="card-p">While TRCGPT is here to answer your important questions, help create content, generate ideas, and assist you in other ways, it is improtant to check the output for accuracy and completeness. Remember, TRCGPT helps you create so you should still take some time to make the responses your own.</p>
+              </div>
+              <div className="chat-card">
+                <h4>Start a new chat for each new set of inquiries</h4>
+                <p className="card-p">This will help your assistant not get confused and lower the risk of your assistant providing incorrect information.</p>
+              </div>
+            </div>
+          </div>
+        )}
+        <div className="chatgpt-input">
+            <input type="text" id="inputField" placeholder="Message TRCGPT" value={this.state.query} onChange={(e) => this.onChange(e)}/>
+            <button id={buttonId} onClick={() => this.onSubmit()}>
+                <img id="send-image" src={require("./images/send_icon.png")} alt="arrow-logo"/>
+            </button>
+        </div>
+      </div>
     )
   }
 
-  /** Click handler for our "Click Me!" button. */
-  private onClicked = (): void => {
-    // Increment state.numClicks, and pass the new value back to
-    // Streamlit via `Streamlit.setComponentValue`.
-    this.setState(
-      prevState => ({ numClicks: prevState.numClicks + 1 }),
-      () => Streamlit.setComponentValue(this.state.numClicks)
-    )
+  private onChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const query = e.target.value;
+    this.setState({ disabled: query === "" });
+    this.setState({ query });
+    console.log(this.state)
   }
 
-  /** Focus handler for our "Click Me!" button. */
-  private _onFocus = (): void => {
-    this.setState({ isFocused: true })
+  private onSubmit = (): void => {
+    Streamlit.setComponentValue(this.state.query);
+    this.setState({ disabled: true });
+    this.setState({ query: "" });
+    this.setState({ cardGroupVisible: false });
   }
 
-  /** Blur handler for our "Click Me!" button. */
-  private _onBlur = (): void => {
-    this.setState({ isFocused: false })
-  }
 }
 
-// "withStreamlitConnection" is a wrapper function. It bootstraps the
-// connection between your component and the Streamlit app, and handles
-// passing arguments from Python -> Component.
-//
-// You don't need to edit withStreamlitConnection (but you're welcome to!).
 export default withStreamlitConnection(MyComponent)
